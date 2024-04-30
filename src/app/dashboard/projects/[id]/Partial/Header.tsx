@@ -1,5 +1,9 @@
-import { ClockCircleOutlined } from "@ant-design/icons";
-import { Progress } from "antd";
+import {
+  ClockCircleOutlined,
+  PlusCircleOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+import { Button, Progress } from "antd";
 import React from "react";
 
 const Header = () => {
@@ -9,6 +13,24 @@ const Header = () => {
         Workload Company Profile Websites Development
       </h1>
       <p>Created by Rakibul Islam on April 31, 2024</p>
+      <div className="py-6 space-x-3">
+        <Button
+          type="primary"
+          shape="round"
+          icon={<PlusCircleOutlined />}
+          size="large"
+        >
+          Add a new task
+        </Button>
+        <Button
+          type="primary"
+          shape="round"
+          icon={<EditOutlined />}
+          size="large"
+        >
+          Edit
+        </Button>
+      </div>
       <div className="flex justify-between items-start gap-5 my-5">
         <div className="w-full flex items-start gap-8">
           <div className="flex items-start gap-2">

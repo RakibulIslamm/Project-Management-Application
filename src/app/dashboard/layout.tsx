@@ -21,7 +21,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   console.log(path);
 
   return (
-    <Layout hasSider>
+    <Layout className="w-full min-h-screen" hasSider>
       <Sider
         trigger={null}
         collapsible
@@ -64,19 +64,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
           ]}
         />
       </Sider>
-      <Layout className="ml-[200px]">
-        <Content
-          style={{
-            margin: "24px 16px",
-            padding: 0,
-            minHeight: 280,
-            background: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          {children}
-        </Content>
-      </Layout>
+      <Layout className="ml-[200px] min-h-screen">{children}</Layout>
     </Layout>
   );
 };
