@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
 import toast from "react-hot-toast";
@@ -12,7 +11,7 @@ const App: React.FC = () => {
     console.log("Received values of form: ", values);
     if (values.username) toast.success("Successfully logged in");
     setTimeout(() => {
-      router.push("/");
+      router.push("/dashboard");
     }, 1000);
   };
 

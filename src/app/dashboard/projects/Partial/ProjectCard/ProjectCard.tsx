@@ -16,7 +16,7 @@ const ProjectCard = () => {
           <Image
             width={110}
             height={110}
-            src="/images/project_image.webp"
+            src="/images/company_logo.webp"
             alt=""
           />
           <div>
