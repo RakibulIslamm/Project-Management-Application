@@ -21,7 +21,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const path = usePathname();
 
   return (
-    <Layout className="w-full min-h-screen">
+    <Layout className="w-full h-screen">
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="px-3 my-2 text-white text-xl font-bold">
           <h2>LOGO</h2>
@@ -68,7 +68,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         <Content
           style={{
             margin: "24px 16px",
-            padding: 24,
+            padding: 0,
             minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
