@@ -7,4 +7,5 @@ export interface Project {
   tasks: Task[];
   teamMembers: string[];
   recentActivities: string[];
+  img: string;
 }

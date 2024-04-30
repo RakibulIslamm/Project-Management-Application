@@ -4,8 +4,7 @@ import { FaBriefcase } from "react-icons/fa";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
-  VideoCameraOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 import { Button, Layout, Menu, theme } from "antd";
 import Link from "next/link";
@@ -21,7 +20,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
   const path = usePathname();
 
   return (
-    <Layout className="w-full h-screen">
+    <Layout className={`w-full h-screen`}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="px-3 my-2 text-white text-xl font-bold">
           <h2>LOGO</h2>
@@ -35,7 +34,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
               key: "dashboard",
               icon: (
                 <Link href={"/dashboard"}>
-                  <FaBriefcase />
+                  <HomeOutlined />
                 </Link>
               ),
               label: "Home",
