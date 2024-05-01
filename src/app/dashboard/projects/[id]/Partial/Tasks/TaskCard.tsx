@@ -1,8 +1,14 @@
 "use client";
-import { DownOutlined, MoreOutlined } from "@ant-design/icons";
+import {
+  ClockCircleOutlined,
+  DownOutlined,
+  MoreOutlined,
+} from "@ant-design/icons";
 import { Dropdown, MenuProps, Space } from "antd";
+import Image from "next/image";
 
 const TaskCard = () => {
+  let status = "to do";
   const items: MenuProps["items"] = [
     {
       label: <button>Edit</button>,
@@ -19,24 +25,75 @@ const TaskCard = () => {
   ];
 
   return (
-    <div className="p-2 rounded bg-slate-50 border shadow-sm">
-      <div>
-        <h4 className="px-4 py-1 border rounded font-bold">
-          Create wireframes
-        </h4>
+    <div
+      draggable
+      className={`rounded border shadow-sm ${
+        status == "to do"
+          ? "bg-slate-50"
+          : status == "in progress"
+          ? "bg-yellow-100"
+          : "bg-green-100"
+      } cursor-move`}
+    >
+      <div className="p-3">
+        <div className="flex items-center justify-between gap-3">
+          <h4 className="px-4 py-1 border rounded font-bold line-clamp-1">
+            Create wireframes
+          </h4>
+          <Dropdown menu={{ items }} trigger={["click"]}>
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <MoreOutlined className="text-lg" />
+              </Space>
+            </a>
+          </Dropdown>
+        </div>
+        <p className="py-4">Design wireframes for the new website layout.</p>
+
+        <div className="flex items-center gap-2">
+          <p>
+            <ClockCircleOutlined /> {new Date(1687449600 * 1000).toDateString()}
+          </p>
+          <div className="flex items-center -space-x-2">
+            <Image
+              width={23}
+              height={23}
+              className="rounded-full"
+              src="/images/user.png"
+              alt=""
+            />
+            <Image
+              width={23}
+              height={23}
+              className="rounded-full"
+              src="/images/user.png"
+              alt=""
+            />
+            <Image
+              width={23}
+              height={23}
+              className="rounded-full"
+              src="/images/user.png"
+              alt=""
+            />
+            <Image
+              width={23}
+              height={23}
+              className="rounded-full"
+              src="/images/user.png"
+              alt=""
+            />
+            <Image
+              width={23}
+              height={23}
+              className="rounded-full"
+              src="/images/user.png"
+              alt=""
+            />
+          </div>
+        </div>
       </div>
-      <p>Design wireframes for the new website layout.</p>
-      <p>Deadline: {new Date(1687449600 * 1000).toUTCString()}</p>
-      <div>Team members</div>
-      <div>
-        <Dropdown menu={{ items }} trigger={["click"]}>
-          <a onClick={(e) => e.preventDefault()}>
-            <Space>
-              <MoreOutlined />
-            </Space>
-          </a>
-        </Dropdown>
-      </div>
+      <div className="w-full h-2 bg-green-500 rounded-b"></div>
     </div>
   );
 };
