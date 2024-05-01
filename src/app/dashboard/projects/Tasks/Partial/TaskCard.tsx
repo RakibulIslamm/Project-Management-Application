@@ -1,4 +1,5 @@
 "use client";
+import AntModal from "@/app/components/Modal";
 import { Task } from "@/interface/task";
 import {
   ClockCircleOutlined,
@@ -7,33 +8,56 @@ import {
 } from "@ant-design/icons";
 import { Dropdown, MenuProps, Space } from "antd";
 import Image from "next/image";
+import Form from "./Form";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { getSingleProject } from "@/reactQuery/api/projectApi";
+import { Project } from "@/interface/project";
+import { User } from "@/interface/user";
+import useTaskStore from "@/store/TaskStore/taskStore";
+import useCommonStore from "@/store/commonStore";
+
+// const idSet = new Set(ids);
+// const filteredUsers = users.filter(user => idSet.has(user.id));
 
 const TaskCard = ({ task }: { task: Task }) => {
+  const { changeTaskStatus } = useTaskStore();
+  const { toggleModalOpen, mode, modalOpen } = useCommonStore();
+  const { id } = useParams();
+  const { data, isLoading } = useQuery<Project>({
+    queryKey: ["project"],
+    queryFn: () => getSingleProject(id as string),
+  });
+
+  if (isLoading) return;
+
   const items: MenuProps["items"] = [
     {
-      label: <button className=" text-xs">Edit</button>,
+      label: "Edit",
       key: "0",
+      onClick: () => toggleModalOpen("edit", task),
     },
     {
-      label: <button className=" text-xs">Delete</button>,
+      label: "Delete",
       key: "1",
     },
     {
-      label: <button className=" text-xs">Complete</button>,
+      label:
+        task.status.toLowerCase() !== "Completed".toLowerCase() && "Complete",
       key: "3",
+      onClick: () => changeTaskStatus(task.id, "Completed"),
     },
   ];
 
   return (
     <div
-      draggable
       className={`rounded border shadow-sm ${
-        task?.status.toLowerCase() == "to do"
+        task?.status.toLowerCase() == "Pending".toLowerCase()
           ? "bg-slate-50"
           : task?.status.toLowerCase() == "in progress"
           ? "bg-yellow-100"
           : "bg-green-100"
-      } cursor-move h-[200px] flex flex-col justify-between`}
+      } h-[200px] flex flex-col justify-between`}
     >
       <div className="p-3 h-full flex flex-col justify-between">
         <div>
@@ -52,59 +76,41 @@ const TaskCard = ({ task }: { task: Task }) => {
           <p className="py-4 line-clamp-3">{task?.description}</p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-between gap-2">
           <p>
-            <ClockCircleOutlined />{" "}
-            {new Date(task?.deadline * 1000).toDateString()}
+            <ClockCircleOutlined /> {new Date(task?.deadline).toDateString()}
           </p>
           <div className="flex items-center -space-x-2">
-            <Image
-              width={23}
-              height={23}
-              className="rounded-full"
-              src="/images/user.png"
-              alt=""
-            />
-            <Image
-              width={23}
-              height={23}
-              className="rounded-full"
-              src="/images/user.png"
-              alt=""
-            />
-            <Image
-              width={23}
-              height={23}
-              className="rounded-full"
-              src="/images/user.png"
-              alt=""
-            />
-            <Image
-              width={23}
-              height={23}
-              className="rounded-full"
-              src="/images/user.png"
-              alt=""
-            />
-            <Image
-              width={23}
-              height={23}
-              className="rounded-full"
-              src="/images/user.png"
-              alt=""
-            />
+            {task.assignedMembers.slice(0, 4).map((m, idx) => (
+              <Image
+                key={idx}
+                width={23}
+                height={23}
+                className="rounded-full"
+                src="/images/user.png"
+                alt=""
+              />
+            ))}
           </div>
         </div>
       </div>
       <div
         className={`w-full h-2 rounded-b ${
-          task.status.toLowerCase() == "To Do".toLowerCase()
+          task.status.toLowerCase() == "Pending".toLowerCase()
             ? "bg-gray-300"
             : task.status.toLowerCase() == "In Progress".toLowerCase()
             ? "bg-yellow-300"
             : "bg-green-500"
         }`}
       ></div>
+      {mode == "edit" && (
+        <AntModal>
+          <Form
+            projectId={data?.id as string}
+            members={data?.teamMembers as User[]}
+          />
+        </AntModal>
+      )}
     </div>
   );
 };

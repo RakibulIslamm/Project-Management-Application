@@ -1,5 +1,4 @@
 import { Divider } from "antd";
-import React, { useEffect } from "react";
 import Activity from "./Partial/Activity";
 import Member from "./Partial/Member";
 import Header from "./Partial/Header";
@@ -7,10 +6,11 @@ import { Poppins } from "next/font/google";
 import Tasks from "../Tasks/Tasks";
 import TaskFilterDropdown from "../Tasks/Partial/TaskFilterDropdown";
 import SearchField from "../Tasks/Partial/SearchField";
-import { QueryClient, useQuery } from "@tanstack/react-query";
-import { getSingleProjects } from "@/reactQuery/api/projectApi";
+import { QueryClient } from "@tanstack/react-query";
+import { getSingleProject } from "@/reactQuery/api/projectApi";
 import { Project } from "@/interface/project";
 import { User } from "@/interface/user";
+import { DragDropContext } from "react-beautiful-dnd";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -20,7 +20,7 @@ const page = async ({ params }: { params: { id: string } }) => {
   const queryClient = new QueryClient();
   const project = await queryClient.fetchQuery<Project>({
     queryKey: ["projects"],
-    queryFn: () => getSingleProjects(params.id),
+    queryFn: () => getSingleProject(params.id),
   });
 
   return (
@@ -68,14 +68,16 @@ const page = async ({ params }: { params: { id: string } }) => {
           <h2 className="text-2xl font-bold">Task management</h2>
           <div className="flex items-center space-x-4">
             <TaskFilterDropdown
+              filterFor={"status"}
               options={[
                 { value: "in progress", label: "In Progress" },
                 { value: "completed", label: "Completed" },
-                { value: "pending", label: "pending" },
+                { value: "pending", label: "Pending" },
               ]}
               placeholder="All Status"
             />
             <TaskFilterDropdown
+              filterFor={"due"}
               options={[
                 { value: "overdue", label: "Overdue" },
                 { value: "today", label: "Due Today" },
@@ -88,7 +90,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         <div className="flex justify-between items-start gap-4">
-          <Tasks status="To Do" />
+          <Tasks status="Pending" />
           <Tasks status="In Progress" />
           <Tasks status="Completed" />
         </div>

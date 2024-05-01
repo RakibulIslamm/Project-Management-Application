@@ -2,35 +2,48 @@
 import { v4 as uuidv4 } from "uuid";
 import { Task } from "@/interface/task";
 import { User } from "@/interface/user";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import useTaskStore from "@/store/TaskStore/taskStore";
+import toast from "react-hot-toast";
+import useCommonStore from "@/store/commonStore";
 
 type Props = {
   members: User[];
   projectId: string;
-  task?: Task;
-  mode: string;
 };
 
-const Form = ({ members, projectId, mode }: Props) => {
-  const [task, setTask] = useState<Task>({
-    id: uuidv4(),
-    projectId: projectId,
-    title: "",
-    description: "",
-    deadline: new Date().getTime(),
-    assignedMembers: [],
-    status: "",
-  });
+const Form = ({ members, projectId }: Props) => {
+  const { addTask, editTask } = useTaskStore();
+  const { mode, data } = useCommonStore();
+  const { toggleModalOpen } = useCommonStore();
+  const [task, setTask] = useState<Task>(
+    data ?? {
+      id: uuidv4(),
+      projectId: projectId,
+      title: "",
+      description: "",
+      deadline: new Date().getTime(),
+      assignedMembers: [],
+      status: "",
+    }
+  );
+
+  const notAssignedMembers = members.filter(
+    (member) => !data?.assignedMembers.includes(member.id)
+  );
+
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
     const { name, value } = e.target;
+
     setTask((prevTask) => ({
       ...prevTask,
       [name]: value,
     }));
+    // console.log(task);
   };
 
   const handleAssignedMembersChange = (
@@ -42,23 +55,55 @@ const Form = ({ members, projectId, mode }: Props) => {
     );
     setTask((prevTask) => ({
       ...prevTask,
+      assignedMembers: data?.id
+        ? [...data!.assignedMembers, ...selectedMembers]
+        : selectedMembers,
+    }));
+
+    /* 
+    const selectedMemberIds = Array.from(
+      e.target.selectedOptions,
+      (option) => option.value
+    );
+
+    const selectedMembers = members.filter((member) =>
+      selectedMemberIds.includes(member.id)
+    );
+
+    setTask((prevTask) => ({
+      ...prevTask,
       assignedMembers: selectedMembers,
     }));
+    
+    */
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // onSubmit(task);
-    console.log(task);
-    setTask({
-      id: "",
-      projectId: "",
-      title: "",
-      description: "",
-      deadline: new Date().getTime(),
-      assignedMembers: [],
-      status: "",
-    });
+    if (mode == "create") {
+      task.id = uuidv4();
+      task.projectId = projectId;
+      task.deadline = new Date(task.deadline).getTime();
+      // console.log(task);
+      addTask(task);
+      console.log(task);
+      toast.success("Task added");
+      toggleModalOpen("");
+      setTask({
+        id: "",
+        projectId: "",
+        title: "",
+        description: "",
+        deadline: new Date().getTime(),
+        assignedMembers: [],
+        status: "",
+      });
+    }
+    if (mode == "edit") {
+      editTask(task.id, task);
+      toast.success("Task Updated successfully");
+      toggleModalOpen("");
+    }
   };
 
   return (
@@ -77,7 +122,7 @@ const Form = ({ members, projectId, mode }: Props) => {
             <input
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               onChange={handleChange}
-              value={task.title}
+              value={task?.title}
               id="title"
               name="title"
               type="text"
@@ -100,6 +145,7 @@ const Form = ({ members, projectId, mode }: Props) => {
               name="deadline"
               value={new Date(task.deadline).toISOString().split("T")[0]}
               onChange={handleChange}
+              required
             />
           </div>
         </div>
@@ -116,8 +162,9 @@ const Form = ({ members, projectId, mode }: Props) => {
             onChange={handleChange}
             id="description"
             name="description"
-            value={task.description}
+            value={task?.description}
             placeholder="Description..."
+            required
           />
         </div>
 
@@ -133,11 +180,11 @@ const Form = ({ members, projectId, mode }: Props) => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="assignedMembers"
               name="assignedMembers"
-              value={task.assignedMembers}
+              value={task?.assignedMembers}
               onChange={handleAssignedMembersChange}
               multiple
             >
-              {members.map((member) => (
+              {notAssignedMembers.map((member) => (
                 <option key={member.id} value={member.id}>
                   {member.name}
                 </option>
@@ -155,12 +202,22 @@ const Form = ({ members, projectId, mode }: Props) => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="status"
               name="status"
-              value={task.status}
               onChange={handleChange}
+              required
             >
-              <option value="to do">To Do</option>
-              <option value="in progress">In Progress</option>
-              <option value="complete">Complete</option>
+              <option value="">Select status</option>
+              <option selected={task?.status == "Pending"} value="Pending">
+                To Do
+              </option>
+              <option
+                selected={task?.status == "In Progress"}
+                value="in progress"
+              >
+                In Progress
+              </option>
+              <option selected={task?.status == "Completed"} value="completed">
+                Completed
+              </option>
             </select>
           </div>
         </div>

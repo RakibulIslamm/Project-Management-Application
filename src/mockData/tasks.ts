@@ -17,7 +17,7 @@ export const tasks = [
       "Task related to developing a mobile application for Android and iOS platforms.",
     deadline: 1687152000,
     assignedMembers: ["4", "5", "6"],
-    status: "To Do",
+    status: "Pending",
   },
   {
     id: "3",
@@ -27,7 +27,7 @@ export const tasks = [
       "Task related to planning and executing a marketing campaign for the new product launch.",
     deadline: 1687238400,
     assignedMembers: ["7", "8"],
-    status: "To Do",
+    status: "Pending",
   },
   {
     id: "4",
@@ -36,7 +36,7 @@ export const tasks = [
     description:
       "Task related to upgrading the company's ERP software to the latest version.",
     deadline: 1684435200,
-    assignedMembers: ["9", "10"],
+    assignedMembers: ["9", "10"], // James Rodriguez, Olivia Nguyen
     status: "Completed",
   },
   {
@@ -56,7 +56,7 @@ export const tasks = [
     description: "Continuation of website redesign to improve user experience.",
     deadline: 1688352000,
     assignedMembers: ["5", "6"],
-    status: "To Do",
+    status: "Pending",
   },
   {
     id: "7",
@@ -66,7 +66,7 @@ export const tasks = [
       "Additional task related to developing a mobile application for Android and iOS platforms.",
     deadline: 1688611200,
     assignedMembers: ["7", "8"],
-    status: "To Do",
+    status: "Pending",
   },
   {
     id: "8",
@@ -76,7 +76,7 @@ export const tasks = [
       "Additional task related to planning and executing a marketing campaign for the new product launch.",
     deadline: 1688697600,
     assignedMembers: ["9", "10"],
-    status: "To Do",
+    status: "Pending",
   },
   {
     id: "9",
@@ -86,7 +86,7 @@ export const tasks = [
       "Additional task related to upgrading the company's ERP software to the latest version.",
     deadline: 1688899200,
     assignedMembers: ["1", "2", "3"],
-    status: "To Do",
+    status: "Pending",
   },
   {
     id: "10",
@@ -96,6 +96,6 @@ export const tasks = [
       "Continuation of enhancing existing product features based on user feedback.",
     deadline: 1689172800,
     assignedMembers: ["4", "5", "6", "7"],
-    status: "To Do",
+    status: "Pending",
   },
 ];

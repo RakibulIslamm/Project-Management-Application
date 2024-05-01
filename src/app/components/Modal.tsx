@@ -1,25 +1,25 @@
 import React, { Dispatch, ReactNode, SetStateAction } from "react";
 import { Modal } from "antd";
+import useCommonStore from "@/store/commonStore";
 
 type Props = {
   children: ReactNode;
-  isModalOpen: boolean;
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-const AntModal = ({ children, isModalOpen, setIsModalOpen }: Props) => {
+const AntModal = ({ children }: Props) => {
+  const { modalOpen, toggleModalOpen } = useCommonStore();
   const handleOk = () => {
-    setIsModalOpen(false);
+    toggleModalOpen("close");
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    toggleModalOpen("close");
   };
 
   return (
     <>
       <Modal
-        open={isModalOpen}
+        open={modalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         okButtonProps={{ hidden: true }}

@@ -7,7 +7,7 @@ export const getProjects = async () => {
   }
   return response.json();
 };
-export const getSingleProjects = async (id: String) => {
+export const getSingleProject = async (id: string) => {
   const response = await fetch(`${baseURL}/${id}`);
   if (!response.ok) {
     throw new Error("Failed to fetch tasks");

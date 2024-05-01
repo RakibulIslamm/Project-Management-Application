@@ -9,16 +9,17 @@ import { Button, Progress } from "antd";
 import React, { useState } from "react";
 import TaskForm from "../../Tasks/Partial/Form";
 import AntModal from "@/app/components/Modal";
+import useCommonStore from "@/store/commonStore";
 
 const Header = ({ project }: { project: Project }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { toggleModalOpen, mode } = useCommonStore();
   return (
     <div className="">
       <h1 className="text-3xl font-bold w-8/12 uppercase">{project.name}</h1>
       <p>Created by Rakibul Islam on April 31, 2024</p>
       <div className="py-6 space-x-3">
         <Button
-          onClick={() => setIsModalOpen(!isModalOpen)}
+          onClick={() => toggleModalOpen("create")}
           type="primary"
           icon={<PlusCircleOutlined />}
           size="large"
@@ -62,13 +63,11 @@ const Header = ({ project }: { project: Project }) => {
           />
         </div>
       </div>
-      <AntModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
-        <TaskForm
-          projectId={project?.id}
-          mode="create"
-          members={project?.teamMembers}
-        />
-      </AntModal>
+      {mode == "create" && (
+        <AntModal>
+          <TaskForm projectId={project?.id} members={project?.teamMembers} />
+        </AntModal>
+      )}
     </div>
   );
 };

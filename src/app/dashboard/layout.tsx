@@ -9,6 +9,7 @@ import {
 import { Button, Layout, Menu, theme } from "antd";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Toaster } from "react-hot-toast";
 
 const { Header, Sider, Content } = Layout;
 
@@ -18,7 +19,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
   const path = usePathname();
-  console.log(path);
+  // console.log(path);
 
   return (
     <Layout className="w-full min-h-screen" hasSider>
@@ -65,6 +66,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
         />
       </Sider>
       <Layout className="ml-[200px] min-h-screen relative">{children}</Layout>
+      <Toaster position="bottom-center" />
     </Layout>
   );
 };
