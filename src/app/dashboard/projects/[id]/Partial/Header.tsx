@@ -15,7 +15,9 @@ const Header = ({ project }: { project: Project }) => {
   const { toggleModalOpen, mode } = useCommonStore();
   return (
     <div className="">
-      <h1 className="text-3xl font-bold w-8/12 uppercase">{project.name}</h1>
+      <h1 className="text-3xl font-bold w-8/12 xs:w-full uppercase">
+        {project.name}
+      </h1>
       <p>Created by Rakibul Islam on April 31, 2024</p>
       <div className="py-6 space-x-3">
         <Button
@@ -30,7 +32,7 @@ const Header = ({ project }: { project: Project }) => {
           Edit
         </Button>
       </div>
-      <div className="flex justify-between items-start gap-5 my-5">
+      <div className="flex justify-between items-start gap-5 my-5 sm:flex-col xs:flex-col">
         <div className="w-full flex items-start gap-8">
           <div className="flex items-start gap-2">
             <ClockCircleOutlined className="text-lg text-blue-600" />
@@ -57,9 +59,11 @@ const Header = ({ project }: { project: Project }) => {
           </h3>
           <Progress
             percent={50}
-            size={[400, 15]}
+            size={["default", 15]}
+            // size={(20, "default")}
             showInfo={false}
             status="active"
+            className="w-full"
           />
         </div>
       </div>

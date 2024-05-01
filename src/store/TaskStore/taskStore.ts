@@ -101,7 +101,6 @@ const useTaskStore = create<State & Action>((set, get) => ({
     })),
   getFilteredTasks: () => {
     const state = get();
-    console.log(state.tasks);
     const filteredTasks = state.tasks.filter(
       (task) =>
         state.filteredByStatus.some(

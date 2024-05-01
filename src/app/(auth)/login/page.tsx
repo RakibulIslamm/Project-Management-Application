@@ -11,7 +11,7 @@ const App: React.FC = () => {
     console.log("Received values of form: ", values);
     if (values.username) toast.success("Successfully logged in");
     setTimeout(() => {
-      router.push("/dashboard");
+      router.push("/dashboard/projects");
     }, 1000);
   };
 

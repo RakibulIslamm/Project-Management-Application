@@ -22,7 +22,7 @@ const page = async () => {
       <ProjectsHeader />
       <div className="w-full h-[calc(100%_-_50px)] overflow-y-auto p-4">
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-3">
             {projects.map((project: Project) => (
               <ProjectCard key={project.id} project={project} />
             ))}

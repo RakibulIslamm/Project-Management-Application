@@ -5,7 +5,7 @@ import { SearchOutlined } from "@ant-design/icons";
 const SearchField = () => {
   const searchTask = useTaskStore((state) => state.searchTask);
   return (
-    <div className="relative">
+    <div className="relative xs:w-full">
       <input
         type="text"
         onChange={(e) => searchTask(e.target.value)}

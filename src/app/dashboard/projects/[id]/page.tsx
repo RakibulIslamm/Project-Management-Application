@@ -11,6 +11,7 @@ import { getSingleProject } from "@/reactQuery/api/projectApi";
 import { Project } from "@/interface/project";
 import { User } from "@/interface/user";
 import { DragDropContext } from "react-beautiful-dnd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -24,7 +25,11 @@ const page = async ({ params }: { params: { id: string } }) => {
   });
 
   return (
-    <div className={`p-6 text-gray-600 space-y-5 ${poppins.className}`}>
+    <div className={`p-6 xs:p-3 text-gray-600 space-y-5 ${poppins.className}`}>
+      <button className="flex items-center gap-2 text-lg xs:text-base">
+        <ArrowLeftOutlined />
+        Back
+      </button>
       {/* Project details */}
       <div className="w-full p-5 bg-white rounded-lg">
         <Header project={project as Project} />
@@ -36,9 +41,8 @@ const page = async ({ params }: { params: { id: string } }) => {
           <p className=" text-base ">{project?.description}</p>
         </div>
       </div>
-
       {/* Team members and recent activities */}
-      <div className="flex items-start gap-5 w-full">
+      <div className="flex items-start xs:flex-col gap-5 w-full sm">
         <div className="w-full p-3 rounded-lg border shadow-sm bg-white">
           <h4 className="text-lg font-bold pb-3">Team members</h4>
           <div className=" h-[300px] overflow-hidden overflow-y-auto scrollbar-none space-y-3">
@@ -53,20 +57,19 @@ const page = async ({ params }: { params: { id: string } }) => {
             <Activity activities={project?.recentActivities as string[]} />
           </div>
         </div>
-        <div className="w-full">
+        <div className="w-full sm:hidden xs:hidden">
           {/* <h4 className="text-lg font-bold pb-3">Recent Activities</h4>
           <div className=" h-[300px] overflow-hidden overflow-y-auto scrollbar-none">
             <Activity />
           </div> */}
         </div>
       </div>
-
       {/* Task management */}
       <Divider />
       <div>
         <div className="my-6 space-y-3">
           <h2 className="text-2xl font-bold">Task management</h2>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center xs:flex-col xs:w-full space-x-4 xs:space-x-0 xs:space-y-3">
             <TaskFilterDropdown
               filterFor={"status"}
               options={[
@@ -89,7 +92,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             <SearchField />
           </div>
         </div>
-        <div className="flex justify-between items-start gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-4">
           <Tasks status="Pending" />
           <Tasks status="In Progress" />
           <Tasks status="Completed" />
