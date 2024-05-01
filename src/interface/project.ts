@@ -1,11 +1,10 @@
-import { Task } from "./task";
+import { User } from "./user";
 
 export interface Project {
   id: string;
   name: string;
   description: string;
-  tasks: Task[];
-  teamMembers: string[];
+  teamMembers: User[];
   recentActivities: string[];
   img: string;
   startDate: number;

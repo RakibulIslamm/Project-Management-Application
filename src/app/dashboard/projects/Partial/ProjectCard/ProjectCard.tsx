@@ -2,12 +2,13 @@ import Image from "next/image";
 import { Poppins } from "next/font/google";
 import Footer from "./Footer";
 import Header from "./Header";
+import { Project } from "@/interface/project";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const ProjectCard = () => {
+const ProjectCard = ({ project }: { project: Project }) => {
   return (
     <div className={`bg-gray-200 rounded-lg ${poppins.className}`}>
       <Header />
@@ -21,16 +22,16 @@ const ProjectCard = () => {
           />
           <div>
             <h3 className="text-lg font-bold text-gray-700 line-clamp-1">
-              Website Redesign
+              {project.name}
             </h3>
             <p className="text-sm line-clamp-3 break-word">
-              Redesign our company website to improve user experience.
+              {project.description}
             </p>
           </div>
         </div>
 
         <div className="flex items-center justify-between">
-          <Footer />
+          <Footer project={project} />
         </div>
       </div>
     </div>

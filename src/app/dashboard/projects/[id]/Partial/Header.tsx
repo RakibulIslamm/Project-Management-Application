@@ -1,3 +1,4 @@
+import { Project } from "@/interface/project";
 import {
   ClockCircleOutlined,
   PlusCircleOutlined,
@@ -6,12 +7,10 @@ import {
 import { Button, Progress } from "antd";
 import React from "react";
 
-const Header = () => {
+const Header = ({ project }: { project: Project }) => {
   return (
     <div className="">
-      <h1 className="text-3xl font-bold w-8/12 uppercase">
-        Workload Company Profile Websites Development
-      </h1>
+      <h1 className="text-3xl font-bold w-8/12 uppercase">{project.name}</h1>
       <p>Created by Rakibul Islam on April 31, 2024</p>
       <div className="py-6 space-x-3">
         <Button type="primary" icon={<PlusCircleOutlined />} size="large">
@@ -29,7 +28,7 @@ const Header = () => {
               <h3 className="font-semibold text-lg p-0 m-0 leading-4 mb-3">
                 Project Create
               </h3>
-              <p>Monday, October 31th, 2020</p>
+              <p>{new Date(project.createdAt * 1000).toDateString()}</p>
             </div>
           </div>
           <div className="flex items-start gap-2">
@@ -38,7 +37,7 @@ const Header = () => {
               <h3 className="font-semibold text-lg p-0 m-0 leading-4 mb-3">
                 Due date
               </h3>
-              <p>Monday, October 31th, 2020</p>
+              <p>{new Date(project.deadline * 1100).toDateString()}</p>
             </div>
           </div>
         </div>

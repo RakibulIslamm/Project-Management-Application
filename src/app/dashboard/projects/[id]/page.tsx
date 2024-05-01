@@ -1,39 +1,39 @@
-"use client";
 import { Divider } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import Activity from "./Partial/Activity";
 import Member from "./Partial/Member";
 import Header from "./Partial/Header";
 import { Poppins } from "next/font/google";
 import Tasks from "./Partial/Tasks/Tasks";
-import { DownOutlined, SearchOutlined } from "@ant-design/icons";
 import TaskFilterDropdown from "./Partial/Tasks/TaskFilterDropdown";
 import SearchField from "./Partial/Tasks/SearchField";
+import { QueryClient, useQuery } from "@tanstack/react-query";
+import { getSingleProjects } from "@/reactQuery/api/projectApi";
+import { Project } from "@/interface/project";
+import { User } from "@/interface/user";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-const page = () => {
+const page = async ({ params }: { params: { id: string } }) => {
+  const queryClient = new QueryClient();
+  const project = await queryClient.fetchQuery<Project>({
+    queryKey: ["projects"],
+    queryFn: () => getSingleProjects(params.id),
+  });
+
   return (
     <div className={`p-6 text-gray-600 space-y-5 ${poppins.className}`}>
       {/* Project details */}
       <div className="w-full p-5 bg-white rounded-lg">
-        <Header />
+        <Header project={project as Project} />
         <Divider />
         <div>
           <h4 className="text-lg font-bold py-3 uppercase">
             Project Description
           </h4>
-          <p className=" text-base ">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
+          <p className=" text-base ">{project?.description}</p>
         </div>
       </div>
 
@@ -42,13 +42,15 @@ const page = () => {
         <div className="w-full p-3 rounded-lg border shadow-sm bg-white">
           <h4 className="text-lg font-bold pb-3">Team members</h4>
           <div className=" h-[300px] overflow-hidden overflow-y-auto scrollbar-none space-y-3">
-            <Member />
+            {project?.teamMembers?.map((member: User) => (
+              <Member key={member.id} member={member} />
+            ))}
           </div>
         </div>
         <div className="w-full p-3 rounded-lg border shadow-sm bg-white">
           <h4 className="text-lg font-bold pb-3">Recent Activities</h4>
           <div className=" h-[300px] overflow-hidden overflow-y-auto scrollbar-none">
-            <Activity />
+            <Activity activities={project?.recentActivities as string[]} />
           </div>
         </div>
         <div className="w-full">
@@ -66,7 +68,6 @@ const page = () => {
           <h2 className="text-2xl font-bold">Task management</h2>
           <div className="flex items-center space-x-4">
             <TaskFilterDropdown
-              onChange={(e) => console.log(e.target.value)}
               options={[
                 { value: "in progress", label: "In Progress" },
                 { value: "completed", label: "Completed" },
@@ -75,7 +76,6 @@ const page = () => {
               placeholder="All Status"
             />
             <TaskFilterDropdown
-              onChange={(e) => console.log(e.target.value)}
               options={[
                 { value: "overdue", label: "Overdue" },
                 { value: "today", label: "Due Today" },
@@ -84,7 +84,7 @@ const page = () => {
               placeholder="All Due dates"
             />
 
-            <SearchField onChange={(e) => console.log(e.target.value)} />
+            <SearchField />
           </div>
         </div>
         <div className="flex justify-between items-start gap-4">
