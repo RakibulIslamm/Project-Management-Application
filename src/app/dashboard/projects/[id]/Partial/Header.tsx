@@ -1,3 +1,4 @@
+"use client";
 import { Project } from "@/interface/project";
 import {
   ClockCircleOutlined,
@@ -5,15 +6,23 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { Button, Progress } from "antd";
-import React from "react";
+import React, { useState } from "react";
+import TaskForm from "../../Tasks/Partial/Form";
+import AntModal from "@/app/components/Modal";
 
 const Header = ({ project }: { project: Project }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="">
       <h1 className="text-3xl font-bold w-8/12 uppercase">{project.name}</h1>
       <p>Created by Rakibul Islam on April 31, 2024</p>
       <div className="py-6 space-x-3">
-        <Button type="primary" icon={<PlusCircleOutlined />} size="large">
+        <Button
+          onClick={() => setIsModalOpen(!isModalOpen)}
+          type="primary"
+          icon={<PlusCircleOutlined />}
+          size="large"
+        >
           Create Task
         </Button>
         <Button type="primary" icon={<EditOutlined />} size="large">
@@ -53,6 +62,13 @@ const Header = ({ project }: { project: Project }) => {
           />
         </div>
       </div>
+      <AntModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen}>
+        <TaskForm
+          projectId={project?.id}
+          mode="create"
+          members={project?.teamMembers}
+        />
+      </AntModal>
     </div>
   );
 };

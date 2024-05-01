@@ -64,7 +64,7 @@ const DashboardLayout = ({ children }: { children: ReactNode }) => {
           ]}
         />
       </Sider>
-      <Layout className="ml-[200px] min-h-screen">{children}</Layout>
+      <Layout className="ml-[200px] min-h-screen relative">{children}</Layout>
     </Layout>
   );
 };

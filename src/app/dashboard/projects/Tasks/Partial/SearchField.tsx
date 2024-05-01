@@ -1,6 +1,5 @@
 "use client";
 import { SearchOutlined } from "@ant-design/icons";
-import React, { ChangeEvent } from "react";
 
 const SearchField = () => {
   return (
