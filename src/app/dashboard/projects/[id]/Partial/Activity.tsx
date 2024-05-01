@@ -8,7 +8,10 @@ const Activity = () => {
         items={[
           {
             children: (
-              <p className="font-semibold">Rakibul Islam Add new task</p>
+              <>
+                <p className="font-semibold">Rakibul Islam Add new task</p>
+                <p className="font-semibold">2015-09-01</p>
+              </>
             ),
           },
         ]}

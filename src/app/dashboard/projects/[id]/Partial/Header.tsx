@@ -14,20 +14,10 @@ const Header = () => {
       </h1>
       <p>Created by Rakibul Islam on April 31, 2024</p>
       <div className="py-6 space-x-3">
-        <Button
-          type="primary"
-          shape="round"
-          icon={<PlusCircleOutlined />}
-          size="large"
-        >
-          Add a new task
+        <Button type="primary" icon={<PlusCircleOutlined />} size="large">
+          Create Task
         </Button>
-        <Button
-          type="primary"
-          shape="round"
-          icon={<EditOutlined />}
-          size="large"
-        >
+        <Button type="primary" icon={<EditOutlined />} size="large">
           Edit
         </Button>
       </div>

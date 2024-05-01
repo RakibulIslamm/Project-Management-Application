@@ -8,4 +8,8 @@ export interface Project {
   teamMembers: string[];
   recentActivities: string[];
   img: string;
+  startDate: number;
+  deadline: number;
+  createdAt: number;
+  updatedAt: number;
 }

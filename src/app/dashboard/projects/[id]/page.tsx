@@ -1,11 +1,14 @@
+"use client";
 import { Divider } from "antd";
-import Image from "next/image";
 import React from "react";
 import Activity from "./Partial/Activity";
 import Member from "./Partial/Member";
 import Header from "./Partial/Header";
 import { Poppins } from "next/font/google";
 import Tasks from "./Partial/Tasks/Tasks";
+import { DownOutlined, SearchOutlined } from "@ant-design/icons";
+import TaskFilterDropdown from "./Partial/Tasks/TaskFilterDropdown";
+import SearchField from "./Partial/Tasks/SearchField";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -40,38 +43,6 @@ const page = () => {
           <h4 className="text-lg font-bold pb-3">Team members</h4>
           <div className=" h-[300px] overflow-hidden overflow-y-auto scrollbar-none space-y-3">
             <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
-            <Member />
           </div>
         </div>
         <div className="w-full p-3 rounded-lg border shadow-sm bg-white">
@@ -89,10 +60,38 @@ const page = () => {
       </div>
 
       {/* Task management */}
-      <div className="flex justify-between items-start gap-4">
-        <Tasks status="To Do" />
-        <Tasks status="In Progress" />
-        <Tasks status="Completed" />
+      <Divider />
+      <div>
+        <div className="my-6 space-y-3">
+          <h2 className="text-2xl font-bold">Task management</h2>
+          <div className="flex items-center space-x-4">
+            <TaskFilterDropdown
+              onChange={(e) => console.log(e.target.value)}
+              options={[
+                { value: "in progress", label: "In Progress" },
+                { value: "completed", label: "Completed" },
+                { value: "pending", label: "pending" },
+              ]}
+              placeholder="All Status"
+            />
+            <TaskFilterDropdown
+              onChange={(e) => console.log(e.target.value)}
+              options={[
+                { value: "overdue", label: "Overdue" },
+                { value: "today", label: "Due Today" },
+                { value: "this_week", label: "Due This Week" },
+              ]}
+              placeholder="All Due dates"
+            />
+
+            <SearchField onChange={(e) => console.log(e.target.value)} />
+          </div>
+        </div>
+        <div className="flex justify-between items-start gap-4">
+          <Tasks status="To Do" />
+          <Tasks status="In Progress" />
+          <Tasks status="Completed" />
+        </div>
       </div>
     </div>
   );
