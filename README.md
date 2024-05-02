@@ -7,8 +7,8 @@ This is a project management application built with next.js. It allows users to 
 # Setup Instructions
 
 ```bash
-git clone <repository_url>
-cd project-management-app
+git clone https://github.com/RakibulIslamm/Project-Management-Application
+cd Project-Management-Application
 ```
 
 # Install Dependencies
