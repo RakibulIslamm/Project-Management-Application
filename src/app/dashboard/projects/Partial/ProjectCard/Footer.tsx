@@ -26,7 +26,7 @@ const Footer = ({ project }: { project: Project }) => {
   return (
     <>
       <div className="flex items-center -space-x-2">
-        {project?.teamMembers?.slice(0, 4)?.map((member, idx) => (
+        {project?.teamMembers?.slice(0, 5)?.map((member, idx) => (
           <Image
             key={idx}
             width={23}
@@ -36,14 +36,6 @@ const Footer = ({ project }: { project: Project }) => {
             alt=""
           />
         ))}
-        <Tooltip title="Add member">
-          <Button
-            type="primary"
-            shape="circle"
-            icon={<PlusCircleOutlined />}
-            size="small"
-          />
-        </Tooltip>
       </div>
       <div className="flex items-center gap-3">
         <Button

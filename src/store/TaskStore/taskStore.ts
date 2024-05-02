@@ -13,11 +13,12 @@ type Action = {
   addTask: (task: Task) => void;
   editTask: (taskId: string, editedTask: Task) => void;
   changeTaskStatus: (taskId: string, status: string) => void;
-  assignMemberToTask: (taskId: string, member: string) => void;
+  assignMemberToTask: (taskId: string, members: string[]) => void;
   filterTaskByStatus: (status: string, projectId: string) => void;
   filterTaskByDue: (deadline: string, projectId: string) => void;
   searchTask: (searchText: string) => void;
   getFilteredTasks: () => Task[];
+  removeTask: (taskId: string) => void;
 };
 
 const useTaskStore = create<State & Action>((set, get) => ({
@@ -45,6 +46,10 @@ const useTaskStore = create<State & Action>((set, get) => ({
         task.id === taskId ? { ...task, ...editedTask } : task
       ),
     })),
+  removeTask: (taskId) =>
+    set((state) => ({
+      tasks: state.tasks.filter((task) => task.id !== taskId),
+    })),
   changeTaskStatus: (taskId, status) =>
     set((state) => ({
       tasks: state.tasks.map((t) => {
@@ -55,7 +60,15 @@ const useTaskStore = create<State & Action>((set, get) => ({
       }),
       filteredTask: [...state.tasks],
     })),
-  assignMemberToTask: (taskId, member) => set((state) => ({})),
+  assignMemberToTask: (taskId, members) =>
+    set((state) => ({
+      tasks: state.tasks.map((task) => {
+        if (task.id == taskId) {
+          task.assignedMembers = [...task.assignedMembers, ...members];
+        }
+        return task;
+      }),
+    })),
   filterTaskByStatus: (status, projectId) =>
     set((state) => ({
       filteredByStatus: state.tasks.filter(

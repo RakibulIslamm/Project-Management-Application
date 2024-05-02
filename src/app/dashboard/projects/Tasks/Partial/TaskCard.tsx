@@ -1,14 +1,12 @@
 "use client";
-import AntModal from "@/app/components/Modal";
 import { Task } from "@/interface/task";
 import {
   ClockCircleOutlined,
-  DownOutlined,
   MoreOutlined,
+  PlusCircleOutlined,
 } from "@ant-design/icons";
-import { Dropdown, MenuProps, Space } from "antd";
+import { Button, Dropdown, MenuProps, Space, Tooltip } from "antd";
 import Image from "next/image";
-import Form from "./Form";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { getSingleProject } from "@/reactQuery/api/projectApi";
@@ -16,13 +14,18 @@ import { Project } from "@/interface/project";
 import { User } from "@/interface/user";
 import useTaskStore from "@/store/TaskStore/taskStore";
 import useCommonStore from "@/store/commonStore";
-
-// const idSet = new Set(ids);
-// const filteredUsers = users.filter(user => idSet.has(user.id));
+import ViewTask from "./ViewTask";
+import EditTask from "./EditTask";
+import AddMembers from "./AddMembers";
 
 const TaskCard = ({ task }: { task: Task }) => {
-  const { changeTaskStatus } = useTaskStore();
-  const { toggleModalOpen, mode, modalOpen } = useCommonStore();
+  const { changeTaskStatus, removeTask } = useTaskStore();
+  const {
+    toggleModalOpen,
+    mode,
+    modalOpen,
+    data: singleTask,
+  } = useCommonStore();
   const { id } = useParams();
   const { data, isLoading } = useQuery<Project>({
     queryKey: ["project"],
@@ -31,7 +34,15 @@ const TaskCard = ({ task }: { task: Task }) => {
 
   if (isLoading) return;
 
+  const idSet = new Set(task.assignedMembers);
+  const filteredUsers = data?.teamMembers?.filter((user) => idSet.has(user.id));
+
   const items: MenuProps["items"] = [
+    {
+      label: "Open",
+      key: "2",
+      onClick: () => toggleModalOpen("view_task", task),
+    },
     {
       label: "Edit",
       key: "0",
@@ -40,7 +51,9 @@ const TaskCard = ({ task }: { task: Task }) => {
     {
       label: "Delete",
       key: "1",
+      onClick: () => removeTask(task.id),
     },
+
     {
       label:
         task.status.toLowerCase() !== "Completed".toLowerCase() && "Complete",
@@ -81,16 +94,32 @@ const TaskCard = ({ task }: { task: Task }) => {
             <ClockCircleOutlined /> {new Date(task?.deadline).toDateString()}
           </p>
           <div className="flex items-center -space-x-2">
-            {task.assignedMembers.slice(0, 4).map((m, idx) => (
-              <Image
-                key={idx}
-                width={23}
-                height={23}
-                className="rounded-full"
-                src="/images/user.png"
-                alt=""
-              />
+            {filteredUsers?.slice(0, 6)?.map((m, idx) => (
+              <Tooltip key={idx} title={m.name}>
+                <Image
+                  width={23}
+                  height={23}
+                  className="rounded-full"
+                  src="/images/user.png"
+                  alt=""
+                />
+              </Tooltip>
             ))}
+            <Tooltip title="Add member">
+              <Button
+                type="primary"
+                shape="circle"
+                icon={<PlusCircleOutlined />}
+                size="small"
+                onClick={() => toggleModalOpen("add_member", task)}
+              />
+              {mode == "add_member" && modalOpen && (
+                <AddMembers
+                  task={singleTask as Task}
+                  teamMembers={data?.teamMembers as User[]}
+                />
+              )}
+            </Tooltip>
           </div>
         </div>
       </div>
@@ -104,12 +133,17 @@ const TaskCard = ({ task }: { task: Task }) => {
         }`}
       ></div>
       {mode == "edit" && (
-        <AntModal>
-          <Form
-            projectId={data?.id as string}
-            members={data?.teamMembers as User[]}
-          />
-        </AntModal>
+        <EditTask
+          projectId={data?.id as string}
+          teamMembers={data?.teamMembers as User[]}
+        />
+      )}
+
+      {mode == "view_task" && modalOpen && (
+        <ViewTask
+          task={singleTask as Task}
+          teamMembers={data?.teamMembers as User[]}
+        />
       )}
     </div>
   );

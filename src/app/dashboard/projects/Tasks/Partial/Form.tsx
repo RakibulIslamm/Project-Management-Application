@@ -86,7 +86,7 @@ const Form = ({ members, projectId }: Props) => {
       task.deadline = new Date(task.deadline).getTime();
       // console.log(task);
       addTask(task);
-      console.log(task);
+      // console.log(task);
       toast.success("Task added");
       toggleModalOpen("");
       setTask({

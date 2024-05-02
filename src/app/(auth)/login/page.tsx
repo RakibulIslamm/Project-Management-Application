@@ -8,7 +8,7 @@ import { IoIosArrowBack } from "react-icons/io";
 const App: React.FC = () => {
   const router = useRouter();
   const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+    // console.log("Received values of form: ", values);
     if (values.username) toast.success("Successfully logged in");
     setTimeout(() => {
       router.push("/dashboard/projects");

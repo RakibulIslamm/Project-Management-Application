@@ -12,6 +12,7 @@ import { Project } from "@/interface/project";
 import { User } from "@/interface/user";
 import { DragDropContext } from "react-beautiful-dnd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import Link from "next/link";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -26,10 +27,13 @@ const page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div className={`p-6 xs:p-3 text-gray-600 space-y-5 ${poppins.className}`}>
-      <button className="flex items-center gap-2 text-lg xs:text-base">
+      <Link
+        href={"/dashboard/projects"}
+        className="flex items-center gap-2 text-lg xs:text-base"
+      >
         <ArrowLeftOutlined />
         Back
-      </button>
+      </Link>
       {/* Project details */}
       <div className="w-full p-5 bg-white rounded-lg">
         <Header project={project as Project} />

@@ -9,11 +9,11 @@ type Props = {
 const AntModal = ({ children }: Props) => {
   const { modalOpen, toggleModalOpen } = useCommonStore();
   const handleOk = () => {
-    toggleModalOpen("close");
+    toggleModalOpen("close", null);
   };
 
   const handleCancel = () => {
-    toggleModalOpen("close");
+    toggleModalOpen("close", null);
   };
 
   return (
