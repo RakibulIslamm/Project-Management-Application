@@ -206,16 +206,22 @@ const Form = ({ members, projectId }: Props) => {
               required
             >
               <option value="">Select status</option>
-              <option selected={task?.status == "Pending"} value="Pending">
+              <option
+                selected={task?.status.toLowerCase() == "pending"}
+                value="Pending"
+              >
                 To Do
               </option>
               <option
-                selected={task?.status == "In Progress"}
+                selected={task?.status.toLowerCase() == "in progress"}
                 value="in progress"
               >
                 In Progress
               </option>
-              <option selected={task?.status == "Completed"} value="completed">
+              <option
+                selected={task?.status.toLowerCase() == "completed"}
+                value="completed"
+              >
                 Completed
               </option>
             </select>

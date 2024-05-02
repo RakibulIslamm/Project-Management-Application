@@ -20,7 +20,7 @@ const App: React.FC = () => {
       <h3 className="text-2xl font-semibold my-3">Login</h3>
       <Form
         name="normal_login"
-        className="login-form w-[400px]"
+        className="login-form w-[400px] xs:max-w-[350px]"
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
