@@ -10,9 +10,9 @@ import { QueryClient } from "@tanstack/react-query";
 import { getSingleProject } from "@/reactQuery/api/projectApi";
 import { Project } from "@/interface/project";
 import { User } from "@/interface/user";
-import { DragDropContext } from "react-beautiful-dnd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import TaskDragDrop from "../Tasks/TaskDragDrop";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -96,11 +96,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             <SearchField />
           </div>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-2 xs:grid-cols-1 gap-4">
-          <Tasks status="Pending" />
-          <Tasks status="In Progress" />
-          <Tasks status="Completed" />
-        </div>
+        <TaskDragDrop />
       </div>
     </div>
   );
