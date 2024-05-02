@@ -17,13 +17,7 @@ const App: React.FC = () => {
 
   return (
     <div>
-      <div className="w-full flex justify-between">
-        <h3 className="text-2xl font-semibold my-3">Login</h3>
-        <button className="flex items-center" onClick={() => router.push("/")}>
-          <IoIosArrowBack className="text-lg" />
-          Back
-        </button>
-      </div>
+      <h3 className="text-2xl font-semibold my-3">Login</h3>
       <Form
         name="normal_login"
         className="login-form w-[400px]"
